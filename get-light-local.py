@@ -1,10 +1,7 @@
 # coding: utf-8
 
-from dbhandler import dbhandler
-from conf import dbattr
-from datetime import timedelta, datetime
-
-JST = timedelta(hours=9)
+import datetime
+import sqlite3handler
 
 # spi, time ライブラリをインポート
 import spidev
@@ -73,9 +70,9 @@ try:
                 ch0_voltage += vol
                 #print(val, vol)
                 time.sleep(dt)
-            data.append((1,(datetime.today()+JST).strftime('%Y-%m-%d %H:%M:%S'), ch0_val/M, ch0_voltage/M))
+            data.append((datetime.datetime.today().strftime('%Y-%m-%d %H:%M:%S'), ch0_val/M, ch0_voltage/M))
             #print(data)
-        db = dbhandler(dbattr)
+        db = sqlite3handler.sqlite3handler('data.db')
         db.insert_data('light', data)
         del(db)
 
