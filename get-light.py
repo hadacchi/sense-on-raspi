@@ -1,10 +1,15 @@
 # coding: utf-8
 
 from dbhandler import dbhandler
-from conf import dbattr
+from conf import dbattr,PID
 from datetime import timedelta, datetime
+import os
 
-JST = timedelta(hours=9)
+pid = os.getpid()
+if os.path.isfile(PID):
+    raise Exception('already started')
+with open(PID, 'w') as f:
+    f.write(str(pid))
 
 # spi, time ライブラリをインポート
 import spidev
@@ -73,7 +78,7 @@ try:
                 ch0_voltage += vol
                 #print(val, vol)
                 time.sleep(dt)
-            data.append((1,(datetime.today()+JST).strftime('%Y-%m-%d %H:%M:%S'), ch0_val/M, ch0_voltage/M))
+            data.append((1,datetime.today().strftime('%Y-%m-%d %H:%M:%S'), ch0_val/M, ch0_voltage/M))
             #print(data)
         db = dbhandler(dbattr)
         db.insert_data('light', data)
