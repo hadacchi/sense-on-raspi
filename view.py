@@ -1,10 +1,10 @@
 # coding: utf-8
 
 import datetime
-import dbhandler
+import sqlite3handler
 import pandas
 
-db   = dbhandler.dbhandler('data.db')
+db   = sqlite3handler.sqlite3handler('data.db')
 data = db.select_data('light', 'order by deal_date',None)
 t    = [datetime.datetime.strptime(d[0],'%Y-%m-%d %H:%M:%S') for d in data]
 val  = [d[1:] for d in data]
