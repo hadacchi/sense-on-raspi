@@ -1,8 +1,8 @@
 # coding: utf-8
 
-import dbhandler
+import sqlite3handler
 
-db=dbhandler.dbhandler('data.db')
+db=sqlite3handler.sqlite3handler('data.db')
 db.connect('data.db')
 db.cur.execute('drop table if exists light')
 db.cur.execute('create table light (t datetime, val real, voltage real)')
